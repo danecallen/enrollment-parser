@@ -20,5 +20,10 @@
     "csv-parser": "^2.3.3",
     "csv-writer": "^1.6.0",
     "lodash": "^4.17.19"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1",
+    "sinon": "^9.0.2"
   }
 }
