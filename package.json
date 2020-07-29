@@ -1,0 +1,24 @@
+{
+  "name": "enrollment-parser",
+  "version": "1.0.0",
+  "description": "A tool to parse client enrollment CSV files",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danecallen/enrollment-parser.git"
+  },
+  "author": "Dane Allen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danecallen/enrollment-parser/issues"
+  },
+  "homepage": "https://github.com/danecallen/enrollment-parser#readme",
+  "dependencies": {
+    "csv-parser": "^2.3.3",
+    "csv-writer": "^1.6.0",
+    "lodash": "^4.17.19"
+  }
+}
