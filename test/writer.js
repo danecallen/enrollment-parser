@@ -1,10 +1,21 @@
 const { expect } = require('chai')
-const { sortGroupAndDedupe } = require('../lib/reader')
+const { writeFiles } = require('../lib/writer')
 const _ = require('lodash')
+const sinon = require('sinon')
+const csv = require('csv-writer')
 
-describe('reader', () => {
-    describe('sortGroupAndDedupe', () => {
-        it('dedupes the userId within insurance to the max version of that user', () => {
+describe('writer', () => {
+    describe('writeFiles', () => {
+
+        const writeSpy = sinon.spy()
+
+        beforeEach(() => {
+            sinon.stub(csv, 'createObjectCsvWriter').returns({
+                writeRecords: writeSpy
+            });
+        })
+
+        it('writes a file for each insurance company', () => {
             const input = {
                 "BCBS DE": [
                     {
@@ -47,8 +58,8 @@ describe('reader', () => {
             }
 
             const expected = [
-                {
-                    "BCBS DE": [
+                [
+                    [
                         {
                             "userId": "123",
                             "name": "Dane R Allen",
@@ -62,9 +73,9 @@ describe('reader', () => {
                             "insurance": "BCBS DE"
                         }
                     ]
-                },
-                {
-                    "BCBS GA": [
+                ],
+                [
+                    [
                         {
                             "userId": "122",
                             "name": "Some Body",
@@ -72,9 +83,9 @@ describe('reader', () => {
                             "insurance": "BCBS GA"
                         }
                     ]
-                },
-                {
-                    "HUMANA": [
+                ],
+                [
+                    [
                         {
                             "userId": "121",
                             "name": "Dane Allen",
@@ -82,9 +93,9 @@ describe('reader', () => {
                             "insurance": "HUMANA"
                         }
                     ]
-                },
-                {
-                    "KAISER": [
+                ],
+                [
+                    [
                         {
                             "userId": "111",
                             "name": "Dane Allen",
@@ -92,12 +103,13 @@ describe('reader', () => {
                             "insurance": "KAISER"
                         }
                     ]
-                }
+                ]
             ]
 
-            const output = _.map(input, sortGroupAndDedupe)
+            writeFiles(input)
 
-            expect(output).to.eql(expected)
+            expect(writeSpy.called).to.equal(true)
+            expect(writeSpy.args).to.eql(expected)
         })
     })
 })
